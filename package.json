@@ -1,0 +1,26 @@
+{
+  "name": "order-execution-engine",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "ts-node-dev src/server.ts",
+    "worker": "ts-node src/modules/queue/order.worker.ts",
+    "test": "jest"
+  },
+  "dependencies": {
+  "bullmq": "^5.9.0",
+  "fastify": "^4.27.0",
+  "@fastify/websocket": "^8.3.1",
+  "ioredis": "^5.4.1",
+  "pg": "^8.11.5",
+  "uuid": "^9.0.1"
+},
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/uuid": "^9.0.7",
+    "jest": "^29.7.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  }
+}
