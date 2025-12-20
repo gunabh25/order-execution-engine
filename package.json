@@ -8,6 +8,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@fastify/swagger": "^9.6.1",
+    "@fastify/swagger-ui": "^5.2.3",
     "@fastify/websocket": "^8.3.1",
     "bullmq": "^5.9.0",
     "fastify": "^4.27.0",
