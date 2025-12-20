@@ -8,11 +8,10 @@ export function orderWebsocket(app: FastifyInstance) {
     (connection: SocketStream) => {
       const { socket } = connection;
 
-      // initial status
       socket.send(JSON.stringify({ status: "pending" }));
 
       socket.on("message", (msg: Buffer) => {
-        console.log("WS:", msg.toString());
+        console.log("WS message:", msg.toString());
       });
     }
   );
