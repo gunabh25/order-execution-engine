@@ -5,6 +5,8 @@
     "moduleResolution": "Node",
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "dist"
-  }
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "exclude": ["node_modules"]
 }
