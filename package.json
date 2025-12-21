@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "ts-node-dev --esm src/server.ts",
     "worker": "ts-node src/modules/queue/order.worker.ts",
     "test": "jest"
   },
