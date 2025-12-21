@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { v4 as uuid } from "uuid";
 import { orderQueue } from "../queue/order.queue";
 import { orderSchema } from "./order.schema";
-import { pg } from "../database/db"; // or your actual database import path
+import { pg } from "../../config/postgres";
 
 export async function orderRoutes(app: FastifyInstance) {
   app.post(
