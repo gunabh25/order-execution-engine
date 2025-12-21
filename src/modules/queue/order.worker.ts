@@ -42,7 +42,7 @@ new Worker(
     }
   },
   {
-    connection: redisConnection, // ✅ REQUIRED
+    connection: redisConnection,
     concurrency: 10
   }
 );
