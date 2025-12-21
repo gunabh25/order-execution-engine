@@ -3,6 +3,7 @@ import { DexRouter } from "../router/dex.router";
 import { retry } from "../../utils/retry";
 import { publishOrderEvent } from "../../realtime/events.publisher";
 import { saveOrder } from "../../db/order.repository";
+import { redisConnection } from "../../config/redis";
 
 const router = new DexRouter();
 
@@ -47,5 +48,8 @@ new Worker(
       throw err;
     }
   },
-  { concurrency: 10 }
+  { 
+    connection: redisConnection,
+    concurrency: 10 
+}
 );
