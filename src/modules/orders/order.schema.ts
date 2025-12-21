@@ -3,9 +3,9 @@ export const orderSchema = {
     type: "object",
     required: ["tokenIn", "tokenOut", "amount"],
     properties: {
-      tokenIn: { type: "string", example: "SOL" },
-      tokenOut: { type: "string", example: "USDC" },
-      amount: { type: "number", example: 1 }
+      tokenIn: { type: "string" },
+      tokenOut: { type: "string" },
+      amount: { type: "number", minimum: 0 }
     }
   },
   response: {
