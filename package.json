@@ -9,8 +9,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@fastify/swagger": "^9.6.1",
-    "@fastify/swagger-ui": "^5.2.3",
+    "@fastify/swagger": "^8.15.0",
+    "@fastify/swagger-ui": "^1.10.2",
     "@fastify/websocket": "^8.3.1",
     "@types/pg": "^8.16.0",
     "bullmq": "^5.9.0",
