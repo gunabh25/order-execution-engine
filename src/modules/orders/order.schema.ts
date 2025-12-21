@@ -1,4 +1,7 @@
 export const orderSchema = {
+  description: "Execute a market order",
+  tags: ["Orders"],
+
   body: {
     type: "object",
     required: ["tokenIn", "tokenOut", "amount"],
@@ -8,6 +11,7 @@ export const orderSchema = {
       amount: { type: "number", minimum: 0 }
     }
   },
+
   response: {
     200: {
       type: "object",
