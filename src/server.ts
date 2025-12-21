@@ -3,13 +3,14 @@ import websocket from "@fastify/websocket";
 import { registerSwagger } from "./plugins/swagger";
 import { orderRoutes } from "./modules/orders/order.controller";
 import { orderWebsocket } from "./modules/orders/order.ws";
-import Redis from "ioredis";
 import { wsGateway } from "./realtime/ws.gateway";
+import { redisConnection } from "./config/redis";
 
+// ✅ Reuse the SAME Redis connection (BullMQ-safe)
+const subscriber = redisConnection.duplicate();
 
-const subscriber = new Redis();
+await subscriber.subscribe("order-events");
 
-subscriber.subscribe("order-events");
 subscriber.on("message", (_, message) => {
   const { orderId, payload } = JSON.parse(message);
   wsGateway.emit(orderId, payload);
@@ -23,6 +24,10 @@ await registerSwagger(app);
 await orderRoutes(app);
 orderWebsocket(app);
 
-app.listen({ port: 3000 }, () => {
-  console.log("🚀 Server running at http://localhost:3000");
+// ✅ Explicit host binding (CRITICAL)
+await app.listen({
+  port: 3000,
+  host: "0.0.0.0"
 });
+
+console.log("🚀 Server running at http://localhost:3000");
