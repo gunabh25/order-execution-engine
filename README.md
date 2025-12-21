@@ -163,8 +163,6 @@ WebSocket lifecycle
 
 Run tests:
 
-bash
-
 npm test
 📡 Mock DEX Implementation
 Simulates Raydium & Meteora quotes
