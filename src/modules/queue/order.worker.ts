@@ -1,6 +1,6 @@
 import { Worker } from "bullmq";
 import { DexRouter } from "../router/dex.router";
-import { retry } from "../../utils/retry";
+import { retry } from "../../../utils/retry";
 
 const router = new DexRouter();
 
