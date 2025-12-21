@@ -3,6 +3,17 @@ import websocket from "@fastify/websocket";
 import { registerSwagger } from "./plugins/swagger";
 import { orderRoutes } from "./modules/orders/order.controller";
 import { orderWebsocket } from "./modules/orders/order.ws";
+import Redis from "ioredis";
+import { wsGateway } from "./realtime/ws.gateway";
+
+
+const subscriber = new Redis();
+
+subscriber.subscribe("order-events");
+subscriber.on("message", (_, message) => {
+  const { orderId, payload } = JSON.parse(message);
+  wsGateway.emit(orderId, payload);
+});
 
 const app = Fastify({ logger: true });
 
