@@ -1,9 +1,11 @@
 import { Worker } from "bullmq";
 import { DexRouter } from "../router/dex.router";
-import { retry } from "../../utils/retry";
-import { publishOrderEvent } from "../../realtime/events.publisher";
-import { saveOrder } from "../../db/order.repository";
+import { retry } from "./../../utils/retry";
 import { redisConnection } from "../../config/redis";
+import {
+  createOrder,
+  updateOrderStatus
+} from "../orders/order.service";
 
 const router = new DexRouter();
 
@@ -12,16 +14,13 @@ new Worker(
   async (job) => {
     const { orderId, payload } = job.data;
 
-    publishOrderEvent(orderId, { status: "routing" });
-    await saveOrder(orderId, "routing", payload);
+    await createOrder(orderId, payload);
+    await updateOrderStatus(orderId, "routing");
 
     try {
-      publishOrderEvent(orderId, { status: "building" });
-
       const best = await router.route();
 
-      publishOrderEvent(orderId, {
-        status: "submitted",
+      await updateOrderStatus(orderId, "submitted", {
         dex: best.dex
       });
 
@@ -29,27 +28,21 @@ new Worker(
         router.execute(best.dex)
       );
 
-      publishOrderEvent(orderId, {
-        status: "confirmed",
+      await updateOrderStatus(orderId, "confirmed", {
         txHash: result.txHash,
         price: result.executedPrice
       });
 
-      await saveOrder(orderId, "confirmed", result);
-
       return result;
     } catch (err: any) {
-      publishOrderEvent(orderId, {
-        status: "failed",
+      await updateOrderStatus(orderId, "failed", {
         error: err.message
       });
-
-      await saveOrder(orderId, "failed", { error: err.message });
       throw err;
     }
   },
-  { 
-    connection: redisConnection,
-    concurrency: 10 
-}
+  {
+    connection: redisConnection, // ✅ REQUIRED
+    concurrency: 10
+  }
 );
